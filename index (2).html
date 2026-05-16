@@ -1,0 +1,2188 @@
+<!DOCTYPE html>
+<!--
+  Redesigned website layout for Next Career Steps with mobile sidebar navigation.
+-->
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+  <title>Next Career Steps – Study in Germany &amp; AI Upskilling</title>
+  <!-- Google Fonts for typography -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #1E40AF;
+      --primary-light: #3B82F6;
+      --accent-color: #111827;
+      --accent-light: #334155;
+      --dark-bg: #F8FAFC;
+      --panel-bg: #FFFFFF;
+      --text-color: #1E293B;
+      --muted-text: #64748B;
+      --border-color: #E2E8F0;
+      --section-alt: #F1F5F9;
+      --gradient-start: #1E40AF;
+      --gradient-end: #7C3AED;
+      --success-color: #059669;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      color: var(--text-color);
+      background-color: var(--dark-bg);
+      line-height: 1.6;
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+      -webkit-hyphens: auto;
+      -ms-hyphens: auto;
+      hyphens: auto;
+    }
+
+    /* Header */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .logo-img {
+      height: 65px;
+      width: auto;
+      max-width: 200px;
+      object-fit: contain;
+    }
+
+    .site-name {
+      color: var(--primary-color);
+      font-size: 1.6rem;
+      font-weight: 700;
+    }
+
+    nav.desktop-nav ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    nav.desktop-nav a {
+      color: var(--text-color);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    nav.desktop-nav a:hover {
+      color: var(--accent-color);
+    }
+
+    /* Mobile sidebar navigation */
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text-color);
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0.5rem;
+    }
+
+    .mobile-sidebar {
+      position: fixed;
+      top: 0;
+      left: -300px;
+      width: 280px;
+      height: 100vh;
+      background: var(--panel-bg);
+      z-index: 2000;
+      transition: left 0.3s ease;
+      padding: 1rem;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+      overflow-y: auto;
+    }
+
+    .mobile-sidebar.active {
+      left: 0;
+    }
+
+    .mobile-sidebar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--primary-color);
+    }
+
+    .mobile-sidebar-nav {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .mobile-sidebar-nav li {
+      margin-bottom: 1rem;
+    }
+
+    .mobile-sidebar-nav a {
+      color: var(--text-color);
+      text-decoration: none;
+      font-size: 1.1rem;
+      display: block;
+      padding: 0.8rem 1rem;
+      border-radius: 6px;
+      transition: all 0.3s;
+    }
+
+    .mobile-sidebar-nav a:hover {
+      color: var(--accent-color);
+      background: rgba(0, 0, 0, 0.05);
+    }
+
+    .sidebar-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1999;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s, visibility 0.3s;
+    }
+
+    .sidebar-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .close-sidebar {
+      background: none;
+      border: none;
+      color: var(--text-color);
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0.5rem;
+    }
+
+    /* Hide desktop nav on mobile */
+    @media (max-width: 768px) {
+      nav.desktop-nav {
+        display: none;
+      }
+
+      .mobile-menu-btn {
+        display: block;
+      }
+
+      header {
+        padding: 0.8rem 1rem;
+      }
+
+      .site-name {
+        font-size: 1.4rem;
+      }
+
+      .logo-img {
+        height: 40px;
+        max-width: 120px;
+      }
+    }
+
+    /* Global section styling */
+    section {
+      padding: 4rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      position: relative;
+      text-align: center;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--text-color);
+      margin-bottom: 1rem;
+      letter-spacing: -0.5px;
+    }
+
+    /* Hero sections */
+    .hero-general {
+      min-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 0 2rem;
+      background-image: linear-gradient(rgba(248, 250, 252, 0.85), rgba(248, 250, 252, 0.85)), url('https://images.unsplash.com/photo-1558021212-51b6ecfa0db9?auto=format&fit=crop&w=1500&q=80');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+    }
+
+    .hero-general h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    .hero-general p {
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin-bottom: 2rem;
+    }
+
+    .cta-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    .cta-button {
+      display: inline-block;
+      padding: 0.8rem 2rem;
+      border-radius: 40px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cta-primary {
+      background-color: var(--accent-color);
+      color: #fff;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .cta-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      background-color: #000000;
+    }
+
+    .cta-secondary {
+      background-color: transparent;
+      border: 2px solid var(--primary-color);
+      color: var(--primary-color);
+    }
+
+    .cta-secondary:hover {
+      transform: translateY(-3px);
+      background-color: var(--primary-color);
+      color: #fff;
+    }
+
+    /* Cards grid reused for services & webinars */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    .card {
+      background: var(--panel-bg);
+      border-radius: 12px;
+      padding: 2rem;
+      text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+      border: 1px solid var(--border-color);
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .card i {
+      font-size: 2.5rem;
+      color: var(--accent-color);
+      margin-bottom: 1rem;
+    }
+
+    .card h3 {
+      color: var(--accent-color);
+      margin-bottom: 0.5rem;
+    }
+
+    .card p {
+      color: var(--muted-text);
+      font-size: 1rem;
+    }
+
+    /* Statistics grid */
+    .statistics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+    }
+
+    .statistics-card {
+      background: var(--panel-bg);
+      border-radius: 12px;
+      padding: 2rem;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+      border: 1px solid var(--border-color);
+    }
+
+    .statistics-card h3 {
+      font-size: 2rem;
+      color: var(--accent-color);
+      margin-bottom: 0.5rem;
+    }
+
+    .statistics-card p {
+      color: var(--muted-text);
+    }
+
+    /* Timeline */
+    .timeline {
+      position: relative;
+      margin-top: 2rem;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 18px;
+      width: 2px;
+      height: 100%;
+      background: var(--primary-color);
+    }
+
+    .timeline-item {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+      align-items: flex-start;
+    }
+
+    .timeline-icon {
+      background: var(--primary-color);
+      color: #fff;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .timeline-content {
+      background: var(--panel-bg);
+      border-radius: 12px;
+      padding: 1.5rem;
+      flex: 1;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+      border: 1px solid var(--border-color);
+    }
+
+    .timeline-content h4 {
+      color: var(--accent-color);
+      margin: 0 0 0.5rem;
+      font-size: 1.1rem;
+    }
+
+    .timeline-content p {
+      color: var(--muted-text);
+      font-size: 0.95rem;
+    }
+
+    /* Contact */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 3rem;
+      margin-top: 2rem;
+    }
+
+    .contact-info h3 {
+      color: var(--accent-color);
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+    }
+
+    .contact-info p {
+      color: var(--muted-text);
+      margin-bottom: 1rem;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .contact-item i {
+      color: var(--accent-color);
+      font-size: 1.3rem;
+    }
+
+    .contact-item a {
+      color: var(--text-color);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .contact-item a:hover {
+      color: var(--accent-color);
+    }
+
+    form {
+      background: var(--panel-bg);
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+      border: 1px solid var(--border-color);
+    }
+
+    .form-group {
+      margin-bottom: 1.2rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: var(--text-color);
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      background: #F8FAFC;
+      color: var(--text-color);
+      font-family: inherit;
+      font-size: 1rem;
+      min-height: 44px;
+      transition: border-color 0.3s;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--primary-color);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+    }
+
+    .submit-button {
+      background: var(--primary-color);
+      color: #fff;
+      border: none;
+      padding: 0.8rem 2rem;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      min-height: 44px;
+    }
+
+    .submit-button:hover {
+      background: #003d8f;
+    }
+
+    /* Simple list styling for AI course */
+    .ai-course-list {
+      list-style: disc inside;
+      padding: 0;
+      margin: 0;
+    }
+
+    .ai-course-list li {
+      margin-bottom: 0.6rem;
+    }
+
+    /* Remove hover effects on touch devices */
+    @media (hover: none) {
+
+      .cta-button:hover,
+      .card:hover {
+        transform: none;
+        box-shadow: none;
+      }
+
+      nav.desktop-nav a:hover {
+        color: inherit;
+      }
+    }
+
+    /* Mobile styles */
+    @media (max-width: 768px) {
+
+      /* Hero section */
+      .hero-general {
+        min-height: auto;
+        padding: 4rem 1rem 2rem;
+      }
+
+      .hero-general h1 {
+        font-size: 2.2rem;
+        line-height: 1.2;
+        margin-top: 1rem;
+      }
+
+      .hero-general p {
+        font-size: 1.05rem;
+        padding: 0;
+      }
+
+      .hero-badge {
+        font-size: 0.75rem;
+        padding: 0.4rem 1rem;
+        margin-bottom: 1rem;
+      }
+
+      .cta-group {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        gap: 0.5rem;
+      }
+
+      .cta-button {
+        width: 100%;
+        text-align: center;
+        padding: 1rem;
+        font-size: 1.05rem;
+      }
+
+      .trust-strip {
+        gap: 1rem;
+        flex-direction: column;
+        padding: 1.5rem 0 0;
+      }
+
+      /* Section padding */
+      section {
+        padding: 3rem 1.2rem;
+      }
+
+      .section-title {
+        font-size: 2rem;
+      }
+
+      .section-subtitle {
+        font-size: 0.95rem;
+        margin-bottom: 2rem;
+      }
+
+      /* Grid adjustments */
+      .grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+
+      .statistics-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+
+      .statistics-card {
+        padding: 1.5rem 1rem;
+      }
+
+      /* Timeline adjustments */
+      .timeline::before {
+        left: 17px;
+      }
+
+      .timeline-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 1.1rem;
+      }
+
+      .timeline-item {
+        gap: 1rem;
+      }
+
+      /* Testimonials & CTA Banner */
+      .testimonial-card {
+        padding: 1.5rem;
+      }
+
+      .cta-banner {
+        padding: 2.5rem 1.5rem;
+        border-radius: 16px;
+      }
+
+      .cta-banner h2 {
+        font-size: 1.6rem;
+      }
+
+      /* Contact form */
+      .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      form {
+        padding: 1.5rem;
+      }
+
+      /* Footer */
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        padding: 2rem 1.2rem 1rem;
+      }
+
+      /* AI course package */
+      .ai-course-list {
+        padding-left: 1rem;
+      }
+    }
+
+    /* Very small screens */
+    @media (max-width: 480px) {
+      .statistics-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .site-name {
+        font-size: 1.3rem;
+      }
+
+      .logo-img {
+        height: 48px;
+        width: auto;
+      }
+    }
+
+    /* ── Scroll Reveal Animations ── */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-40px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes fadeInRight {
+      from {
+        opacity: 0;
+        transform: translateX(40px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes scaleIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.05);
+      }
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-8px);
+      }
+    }
+
+    @keyframes gradientShift {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-40px);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal-left.active {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .reveal-right {
+      opacity: 0;
+      transform: translateX(40px);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal-right.active {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .reveal-scale {
+      opacity: 0;
+      transform: scale(0.9);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal-scale.active {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .delay-1 {
+      transition-delay: 0.1s;
+    }
+
+    .delay-2 {
+      transition-delay: 0.2s;
+    }
+
+    .delay-3 {
+      transition-delay: 0.3s;
+    }
+
+    .delay-4 {
+      transition-delay: 0.4s;
+    }
+
+    .delay-5 {
+      transition-delay: 0.5s;
+    }
+
+    .delay-6 {
+      transition-delay: 0.6s;
+    }
+
+    /* ── Improved Card Icon ── */
+    .card .icon-wrap {
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.2rem;
+      font-size: 1.6rem;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .card:hover .icon-wrap {
+      transform: translateY(-4px) scale(1.05);
+    }
+
+    .icon-blue {
+      background: #EFF6FF;
+      color: var(--primary-color);
+    }
+
+    .icon-amber {
+      background: #FFFBEB;
+      color: var(--accent-color);
+    }
+
+    .icon-green {
+      background: #ECFDF5;
+      color: var(--success-color);
+    }
+
+    .icon-purple {
+      background: #F5F3FF;
+      color: #7C3AED;
+    }
+
+    .icon-rose {
+      background: #FFF1F2;
+      color: #E11D48;
+    }
+
+    .icon-cyan {
+      background: #ECFEFF;
+      color: #0891B2;
+    }
+
+    /* ── Gradient Hero ── */
+    .hero-general {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-general::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(30, 64, 175, 0.08) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .hero-general::after {
+      content: '';
+      position: absolute;
+      bottom: -40%;
+      left: -15%;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(124, 58, 237, 0.06) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .hero-general h1 {
+      animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+    }
+
+    .hero-general p {
+      animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both;
+    }
+
+    .hero-general .cta-group {
+      animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) 0.6s both;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+      color: #fff;
+      padding: 0.5rem 1.2rem;
+      border-radius: 40px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      animation: slideDown 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+      letter-spacing: 0.5px;
+    }
+
+    /* ── Nav pill active state ── */
+    nav.desktop-nav a {
+      position: relative;
+      padding: 0.4rem 0;
+    }
+
+    nav.desktop-nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary-color), var(--gradient-end));
+      transition: width 0.3s ease;
+      border-radius: 2px;
+    }
+
+    nav.desktop-nav a:hover::after {
+      width: 100%;
+    }
+
+    /* ── Section divider ── */
+    .section-divider {
+      height: 4px;
+      max-width: 120px;
+      margin: 0 auto 2rem;
+      background: linear-gradient(90deg, var(--primary-color), var(--gradient-end));
+      border-radius: 4px;
+    }
+
+    .section-subtitle {
+      color: var(--muted-text);
+      max-width: 700px;
+      margin: 0 auto 2.5rem;
+      text-align: center;
+      font-size: 1.05rem;
+      line-height: 1.7;
+    }
+
+    /* ── Testimonial Card ── */
+    .testimonial-card {
+      background: var(--panel-bg);
+      border-radius: 16px;
+      padding: 2rem;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+      position: relative;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .testimonial-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    .testimonial-card .quote-icon {
+      font-size: 2.5rem;
+      color: var(--primary-light);
+      opacity: 0.3;
+      position: absolute;
+      top: 1rem;
+      right: 1.5rem;
+    }
+
+    .testimonial-card p {
+      color: var(--muted-text);
+      font-style: italic;
+      line-height: 1.7;
+      margin-bottom: 1.2rem;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .testimonial-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary-color), var(--gradient-end));
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .testimonial-name {
+      font-weight: 600;
+      color: var(--text-color);
+      font-size: 0.95rem;
+    }
+
+    .testimonial-role {
+      color: var(--muted-text);
+      font-size: 0.85rem;
+    }
+
+    /* ── Trust badges ── */
+    .trust-strip {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+      padding: 2rem 0;
+    }
+
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      color: var(--muted-text);
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+
+    .trust-item i {
+      color: var(--success-color);
+      font-size: 1.2rem;
+    }
+
+    /* ── Statistics counter animation ── */
+    .statistics-card h3 {
+      background: linear-gradient(135deg, var(--primary-color), var(--gradient-end));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ── CTA Banner ── */
+    .cta-banner {
+      background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+      border-radius: 20px;
+      padding: 3.5rem 2rem;
+      text-align: center;
+      color: #fff;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .cta-banner h2 {
+      font-size: 2rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .cta-banner p {
+      opacity: 0.9;
+      max-width: 600px;
+      margin: 0 auto 1.5rem;
+    }
+
+    .cta-banner .cta-button {
+      background: #fff;
+      color: var(--primary-color);
+      font-weight: 700;
+    }
+
+    .cta-banner .cta-button:hover {
+      background: #F8FAFC;
+    }
+
+    /* ── Progress Scroll Bar ── */
+    .progress-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      z-index: 9999;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary-color), var(--gradient-end));
+      width: 0%;
+      border-radius: 0 2px 2px 0;
+      box-shadow: 0 0 10px rgba(30, 64, 175, 0.5);
+    }
+
+    /* ── University Marquee ── */
+    .marquee-container {
+      width: 100%;
+      overflow: hidden;
+      padding: 3rem 0;
+      background: var(--panel-bg);
+      border-top: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .marquee-title {
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--muted-text);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 2rem;
+    }
+
+    .marquee-content {
+      display: flex;
+      width: calc(250px * 12);
+      animation: scrollMarquee 30s linear infinite;
+    }
+
+    .marquee-item {
+      width: 250px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      filter: grayscale(100%);
+      opacity: 0.5;
+      transition: all 0.3s;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: var(--text-color);
+      gap: 10px;
+    }
+
+    .marquee-item:hover {
+      filter: grayscale(0%);
+      opacity: 1;
+    }
+
+    @keyframes scrollMarquee {
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(calc(-250px * 6));
+      }
+    }
+
+    /* ── FAQ Accordion ── */
+    .faq-item {
+      background: var(--panel-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      margin-bottom: 1rem;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .faq-question {
+      padding: 1.5rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+      color: var(--text-color);
+    }
+
+    .faq-question i {
+      transition: transform 0.3s;
+      color: var(--primary-color);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out, padding 0.3s ease;
+      color: var(--muted-text);
+      background: #F8FAFC;
+    }
+
+    .faq-item.active {
+      border-color: var(--primary-color);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .faq-item.active .faq-answer {
+      max-height: 200px;
+      padding: 0 1.5rem 1.5rem;
+    }
+
+    .faq-item.active .faq-question i {
+      transform: rotate(180deg);
+    }
+
+    /* ── Floating WhatsApp Widget ── */
+    .floating-widget {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .whatsapp-btn {
+      width: 60px;
+      height: 60px;
+      background: #25D366;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      text-decoration: none;
+      position: relative;
+    }
+
+    .whatsapp-btn::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: #25D366;
+      border-radius: 50%;
+      z-index: -1;
+      animation: pulseGreen 2s infinite;
+    }
+
+    @keyframes pulseGreen {
+      0% {
+        transform: scale(1);
+        opacity: 0.8;
+      }
+
+      100% {
+        transform: scale(1.6);
+        opacity: 0;
+      }
+    }
+
+    .callback-btn {
+      background: white;
+      color: var(--primary-color);
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      text-decoration: none;
+      border: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* ── Improved Timeline Highlight ── */
+    .timeline-item {
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .timeline-item:hover {
+      transform: translateX(10px);
+    }
+
+    .timeline-item:hover .timeline-icon {
+      background: var(--gradient-end);
+      box-shadow: 0 0 15px rgba(124, 58, 237, 0.4);
+    }
+
+    .timeline-item:hover .timeline-content {
+      border-color: var(--gradient-end);
+    }
+
+    /* ── Glassmorphism Sidebar ── */
+    .mobile-sidebar {
+      background: rgba(255, 255, 255, 0.7) !important;
+      backdrop-filter: blur(15px) !important;
+      -webkit-backdrop-filter: blur(15px) !important;
+      border-right: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .mobile-sidebar-header {
+      border-bottom: 1px solid rgba(30, 64, 175, 0.1) !important;
+    }
+
+    .mobile-sidebar-nav a:hover {
+      background: rgba(30, 64, 175, 0.05) !important;
+    }
+
+    /* ── Footer improved ── */
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: left;
+      padding: 3rem 2rem 2rem;
+    }
+
+    .footer-grid h4 {
+      color: var(--text-color);
+      margin-bottom: 1rem;
+      font-size: 1rem;
+    }
+
+    .footer-grid a {
+      display: block;
+      color: var(--muted-text);
+      text-decoration: none;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+      transition: color 0.3s;
+    }
+
+    .footer-grid a:hover {
+      color: var(--primary-color);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid var(--border-color);
+      padding: 1.5rem 2rem;
+      text-align: center;
+      color: var(--muted-text);
+      font-size: 0.85rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* ── Animated Background System ── */
+    .bg-animated {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .bg-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.12;
+      will-change: transform;
+    }
+
+    .bg-orb-1 {
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, var(--primary-color), transparent 70%);
+      top: -10%;
+      right: -5%;
+      animation: orbFloat1 18s ease-in-out infinite;
+    }
+
+    .bg-orb-2 {
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, var(--gradient-end), transparent 70%);
+      bottom: 10%;
+      left: -8%;
+      animation: orbFloat2 22s ease-in-out infinite;
+    }
+
+    .bg-orb-3 {
+      width: 350px;
+      height: 350px;
+      background: radial-gradient(circle, var(--accent-color), transparent 70%);
+      top: 40%;
+      right: 15%;
+      animation: orbFloat3 25s ease-in-out infinite;
+    }
+
+    .bg-orb-4 {
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, var(--success-color), transparent 70%);
+      top: 70%;
+      left: 20%;
+      animation: orbFloat4 20s ease-in-out infinite;
+    }
+
+    @keyframes orbFloat1 {
+
+      0%,
+      100% {
+        transform: translate(0, 0) scale(1);
+      }
+
+      25% {
+        transform: translate(-60px, 80px) scale(1.1);
+      }
+
+      50% {
+        transform: translate(-30px, 150px) scale(0.95);
+      }
+
+      75% {
+        transform: translate(40px, 60px) scale(1.05);
+      }
+    }
+
+    @keyframes orbFloat2 {
+
+      0%,
+      100% {
+        transform: translate(0, 0) scale(1);
+      }
+
+      25% {
+        transform: translate(70px, -50px) scale(1.08);
+      }
+
+      50% {
+        transform: translate(120px, -100px) scale(0.92);
+      }
+
+      75% {
+        transform: translate(50px, -30px) scale(1.04);
+      }
+    }
+
+    @keyframes orbFloat3 {
+
+      0%,
+      100% {
+        transform: translate(0, 0) scale(1);
+      }
+
+      33% {
+        transform: translate(-80px, -60px) scale(1.12);
+      }
+
+      66% {
+        transform: translate(40px, 80px) scale(0.9);
+      }
+    }
+
+    @keyframes orbFloat4 {
+
+      0%,
+      100% {
+        transform: translate(0, 0) scale(1);
+      }
+
+      33% {
+        transform: translate(60px, -90px) scale(1.06);
+      }
+
+      66% {
+        transform: translate(-50px, 40px) scale(0.95);
+      }
+    }
+
+    /* Subtle dot-grid pattern overlay */
+    .bg-dots {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      background-image: radial-gradient(circle, rgba(30, 64, 175, 0.04) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+
+    /* Ensure all content sits above the animated bg */
+    section,
+    .marquee-container,
+    footer,
+    #privacy-policy,
+    #terms,
+    #data-deletion {
+      position: relative;
+      z-index: 1;
+      background-color: var(--dark-bg);
+    }
+
+    .marquee-container {
+      background-color: var(--panel-bg);
+    }
+
+    /* Reduce animation on mobile for performance */
+    @media (max-width: 768px) {
+      .bg-orb {
+        filter: blur(60px);
+        opacity: 0.08;
+      }
+
+      .bg-orb-1,
+      .bg-orb-2 {
+        width: 250px;
+        height: 250px;
+      }
+
+      .bg-orb-3,
+      .bg-orb-4 {
+        display: none;
+      }
+
+      .bg-dots {
+        background-size: 40px 40px;
+      }
+    }
+
+    /* Respect reduced motion preference */
+    @media (prefers-reduced-motion: reduce) {
+      .bg-orb {
+        animation: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="progress-container">
+    <div class="progress-bar" id="scrollProgress"></div>
+  </div>
+  <!-- Animated Background -->
+  <div class="bg-animated" aria-hidden="true">
+    <div class="bg-orb bg-orb-1"></div>
+    <div class="bg-orb bg-orb-2"></div>
+    <div class="bg-orb bg-orb-3"></div>
+    <div class="bg-orb bg-orb-4"></div>
+  </div>
+  <div class="bg-dots" aria-hidden="true"></div>
+  <!-- Mobile sidebar overlay -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- Mobile sidebar navigation -->
+  <div class="mobile-sidebar" id="mobileSidebar">
+    <div class="mobile-sidebar-header">
+      <span style="font-weight: 600; color: var(--accent-color);">Menu</span>
+      <button class="close-sidebar" id="closeSidebar">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <ul class="mobile-sidebar-nav">
+      <li><a href="#study-germany"><i class="fas fa-graduation-cap" style="margin-right: 10px;"></i>Study in Germany</a>
+      </li>
+      <li><a href="#ai-program"><i class="fas fa-robot" style="margin-right: 10px;"></i>AI Upskilling</a></li>
+      <li><a href="#contact"><i class="fas fa-envelope" style="margin-right: 10px;"></i>Contact</a></li>
+      <li><a href="tel:+918605205226"><i class="fas fa-phone" style="margin-right: 10px;"></i>Call Us</a></li>
+      <li><a href="https://wa.me/919689908757" target="_blank"><i class="fab fa-whatsapp"
+            style="margin-right: 10px;"></i>WhatsApp</a></li>
+    </ul>
+  </div>
+
+  <!-- Header and navigation -->
+  <header>
+    <div class="header-left">
+      <img src="logo.png" alt="Next Career Steps Logo" class="logo-img">
+      <span class="site-name">Next Career Steps</span>
+    </div>
+    <button class="mobile-menu-btn" id="mobileMenuBtn">
+      <i class="fas fa-bars"></i>
+    </button>
+    <nav class="desktop-nav">
+      <ul>
+        <li><a href="#study-germany">Study in Germany</a></li>
+        <li><a href="#ai-program">AI Upskilling</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- General hero introducing both offerings -->
+  <section class="hero-general">
+    <span class="hero-badge"><i class="fas fa-rocket"></i> Your Future Starts Here</span>
+    <h1>Chart Your Future<br>with Confidence</h1>
+    <p>Whether you aim to earn a world‑class degree in Germany or build cutting‑edge AI skills, Next Career Steps
+      provides personalised guidance and training to help you succeed.</p>
+    <div class="cta-group">
+      <a href="#study-germany" class="cta-button cta-primary">Study in Germany</a>
+      <a href="#ai-program" class="cta-button cta-secondary">Discover AI Upskilling</a>
+    </div>
+    <div class="trust-strip" style="animation: fadeInUp 1s cubic-bezier(0.16,1,0.3,1) 0.9s both;">
+      <div class="trust-item"><i class="fas fa-check-circle"></i> 500+ Students Guided</div>
+      <div class="trust-item"><i class="fas fa-check-circle"></i> 98% Visa Success Rate</div>
+      <div class="trust-item"><i class="fas fa-check-circle"></i> Expert AI Trainers</div>
+    </div>
+  </section>
+
+  <!-- University Marquee -->
+  <div class="marquee-container">
+    <div class="marquee-title">Trusted by Students at Leading Universities</div>
+    <div class="marquee-content">
+      <div class="marquee-item"><i class="fas fa-university"></i> TU Munich</div>
+      <div class="marquee-item"><i class="fas fa-university"></i> RWTH Aachen</div>
+      <div class="marquee-item"><i class="fas fa-university"></i> FU Berlin</div>
+      <div class="marquee-item"><i class="fas fa-university"></i> Univ. Heidelberg</div>
+      <div class="marquee-item"><i class="fas fa-university"></i> TU Berlin</div>
+      <div class="marquee-item"><i class="fas fa-university"></i> Univ. Stuttgart</div>
+      <!-- Duplicate for infinite effect -->
+      <div class="marquee-item"><i class="fas fa-university"></i> TU Munich</div>
+      <div class="marquee-item"><i class="fas fa-university"></i> RWTH Aachen</div>
+      <div class="marquee-item"><i class="fas fa-university"></i> FU Berlin</div>
+      <div class="marquee-item"><i class="fas fa-university"></i> Univ. Heidelberg</div>
+      <div class="marquee-item"><i class="fas fa-university"></i> TU Berlin</div>
+      <div class="marquee-item"><i class="fas fa-university"></i> Univ. Stuttgart</div>
+    </div>
+  </div>
+
+  <!-- Study in Germany Section -->
+  <section id="study-germany">
+    <h2 class="section-title reveal">Study in Germany</h2>
+    <div class="section-divider reveal delay-1"></div>
+    <p class="section-subtitle reveal delay-2">
+      Our experienced consultants tailor every step of the application journey – from university shortlisting to
+      pre‑departure support – so you can focus on making the most of your international education.
+    </p>
+    <!-- Services Cards -->
+    <div class="grid">
+      <div class="card reveal delay-1">
+        <div class="icon-wrap icon-blue"><i class="fas fa-university"></i></div>
+        <h3>University &amp; Program Guidance</h3>
+        <p>Receive personalised shortlists of German and European universities that align with your academic background,
+          budget and career goals.</p>
+      </div>
+      <div class="card reveal delay-2">
+        <div class="icon-wrap icon-amber"><i class="fas fa-file-alt"></i></div>
+        <h3>SOP &amp; Application Support</h3>
+        <p>Craft compelling Statements of Purpose, prepare Letters of Recommendation and assemble a flawless application
+          portfolio.</p>
+      </div>
+      <div class="card reveal delay-3">
+        <div class="icon-wrap icon-purple"><i class="fas fa-passport"></i></div>
+        <h3>Visa &amp; Interview Prep</h3>
+        <p>Navigate the visa process confidently and get coached on interview best practices to secure your study
+          permit.</p>
+      </div>
+      <div class="card reveal delay-4">
+        <div class="icon-wrap icon-green"><i class="fas fa-briefcase"></i></div>
+        <h3>Career &amp; Job Search</h3>
+        <p>Access tailored advice on finding student jobs and internships, plus guidance on your post‑study job search
+          in Europe.</p>
+      </div>
+      <div class="card reveal delay-5">
+        <div class="icon-wrap icon-rose"><i class="fas fa-award"></i></div>
+        <h3>Scholarship Assistance</h3>
+        <p>Identify and apply for DAAD, Erasmus Mundus and other prestigious scholarships to fund your education in
+          Germany.</p>
+      </div>
+      <div class="card reveal delay-6">
+        <div class="icon-wrap icon-cyan"><i class="fas fa-language"></i></div>
+        <h3>Language Preparation</h3>
+        <p>Get guidance on German language courses (A1–B2) and IELTS/TOEFL preparation to meet admission requirements.
+        </p>
+      </div>
+    </div>
+    <!-- Why Germany Statistics -->
+    <h2 class="section-title reveal" style="margin-top:4rem;">Why Germany?</h2>
+    <div class="section-divider reveal delay-1"></div>
+    <div class="statistics-grid">
+      <div class="statistics-card reveal delay-1">
+        <h3>400+</h3>
+        <p>Universities offering master's programmes with world‑class facilities</p>
+      </div>
+      <div class="statistics-card reveal delay-2">
+        <h3>€0–500</h3>
+        <p>Average tuition per semester at public universities</p>
+      </div>
+      <div class="statistics-card reveal delay-3">
+        <h3>18&nbsp;Months</h3>
+        <p>Post‑study work visa to jump‑start your career</p>
+      </div>
+      <div class="statistics-card reveal delay-4">
+        <h3>350k+</h3>
+        <p>International students choose Germany every year</p>
+      </div>
+      <div class="statistics-card reveal delay-5">
+        <h3>1000+</h3>
+        <p>English‑taught master's programmes across disciplines</p>
+      </div>
+      <div class="statistics-card reveal delay-6">
+        <h3>26</h3>
+        <p>Schengen countries accessible after admission</p>
+      </div>
+    </div>
+    <!-- Our Process Timeline -->
+    <h2 class="section-title reveal" style="margin-top:4rem;">How We Help</h2>
+    <div class="section-divider reveal delay-1"></div>
+    <div class="timeline">
+      <div class="timeline-item reveal-left delay-1">
+        <div class="timeline-icon"><i class="fas fa-user-check"></i></div>
+        <div class="timeline-content">
+          <h4>Profile Evaluation</h4>
+          <p>Discuss your academic background, career aspirations and budget to determine the best course of action.</p>
+        </div>
+      </div>
+      <div class="timeline-item reveal-left delay-2">
+        <div class="timeline-icon"><i class="fas fa-search"></i></div>
+        <div class="timeline-content">
+          <h4>University Shortlisting</h4>
+          <p>Curate a list of programmes based on fit, admission chances and scholarship opportunities.</p>
+        </div>
+      </div>
+      <div class="timeline-item reveal-left delay-3">
+        <div class="timeline-icon"><i class="fas fa-pencil-alt"></i></div>
+        <div class="timeline-content">
+          <h4>Application Preparation</h4>
+          <p>Develop a persuasive Statement of Purpose and gather outstanding Letters of Recommendation.</p>
+        </div>
+      </div>
+      <div class="timeline-item reveal-left delay-4">
+        <div class="timeline-icon"><i class="fas fa-clipboard-check"></i></div>
+        <div class="timeline-content">
+          <h4>Visa &amp; Interviews</h4>
+          <p>Compile financial documents, prepare for visa interviews and practice with mock sessions.</p>
+        </div>
+      </div>
+      <div class="timeline-item reveal-left delay-5">
+        <div class="timeline-icon"><i class="fas fa-plane-departure"></i></div>
+        <div class="timeline-content">
+          <h4>Pre‑Departure Support</h4>
+          <p>Receive guidance on accommodation, insurance and budgeting so you arrive in Germany prepared.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AI Upskilling Section -->
+  <section id="ai-program" style="background-color: var(--section-alt); color: var(--text-color);">
+    <h2 class="section-title reveal">AI Upskilling Program</h2>
+    <div class="section-divider reveal delay-1"></div>
+    <p class="section-subtitle reveal delay-2">
+      Upskill yourself in one of the fastest‑growing fields. Our AI program bridges foundational skills like programming
+      and data analysis with advanced topics such as generative models and prompt engineering.
+    </p>
+    <!-- Why Upskill -->
+    <h3 class="reveal delay-2" style="color: var(--accent-color); text-align: center; margin-top: 2rem;">Why Upskill in
+      Artificial Intelligence?</h3>
+    <p class="section-subtitle reveal delay-3">
+      AI is evolving rapidly with up to 170&nbsp;million new jobs expected by 2030. By enhancing your AI knowledge now,
+      you position yourself to harness these opportunities and transform your career.
+    </p>
+    <!-- Webinars / Training Sessions -->
+    <h3 class="reveal" style="color: var(--primary-color); text-align: center; margin-bottom: 1rem;">Training &amp;
+      Webinars</h3>
+    <div class="grid">
+      <div class="card reveal delay-1" style="text-align:left;">
+        <div class="icon-wrap icon-blue"><i class="fas fa-chalkboard-teacher"></i></div>
+        <h3>AI for Beginners (Live)</h3>
+        <p>Kick‑start your AI journey with an introduction to machine learning and neural networks. No prior experience
+          required.</p>
+        <div style="margin-top:auto; display:flex; flex-wrap:wrap; gap:1rem;">
+          <a href="#" class="cta-button cta-primary" style="flex: 1; min-width: 140px; padding: 0.8rem 1rem;">Join Live
+            Session</a>
+          <a href="#" class="cta-button cta-secondary" style="flex: 1; min-width: 140px; padding: 0.8rem 1rem;">Register
+            Now</a>
+        </div>
+      </div>
+      <div class="card reveal delay-2" style="text-align:left;">
+        <div class="icon-wrap icon-green"><i class="fas fa-chart-line"></i></div>
+        <h3>Data Analytics with Python (Recorded)</h3>
+        <p>Learn how to analyse real‑world data using Python, Pandas and visualisation libraries at your own pace.</p>
+        <div style="margin-top:auto;">
+          <a href="#" class="cta-button cta-primary">Watch Replay</a>
+        </div>
+      </div>
+      <div class="card reveal delay-3" style="text-align:left;">
+        <div class="icon-wrap icon-purple"><i class="fas fa-brain"></i></div>
+        <h3>Generative AI &amp; Prompt Engineering</h3>
+        <p>Dive into the latest generative models and master the art of crafting effective prompts for large language
+          models.</p>
+        <div style="margin-top:auto; display:flex; flex-wrap:wrap; gap:1rem;">
+          <a href="#" class="cta-button cta-primary" style="flex: 1; min-width: 140px; padding: 0.8rem 1rem;">Join Live
+            Session</a>
+          <a href="#" class="cta-button cta-secondary" style="flex: 1; min-width: 140px; padding: 0.8rem 1rem;">Register
+            Now</a>
+        </div>
+      </div>
+    </div>
+    <!-- Courses Offering -->
+    <h3 style="color: var(--primary-color); text-align: center; margin-top:4rem;">Data Science Complete Package</h3>
+    <div
+      style="max-width: 900px; margin: 0 auto; background: var(--panel-bg); border-radius: 12px; padding: 3rem 2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border: 1px solid var(--border-color);">
+      <h4 style="color: var(--accent-color); font-size:1.8rem; margin-bottom:0.5rem; text-align:center;">Master Data
+        Science</h4>
+
+      <p style="color: var(--muted-text); max-width: 700px; margin: 0 auto; text-align:center;">
+        Gain comprehensive, hands‑on experience with our complete data science programme. From foundational programming
+        to cutting‑edge AI, this course equips you with the skills to tackle real‑world projects.
+      </p>
+      <ul class="ai-course-list"
+        style="max-width:500px; margin:1.5rem auto; text-align:left; color: var(--muted-text);">
+        <li>Python Programming</li>
+        <li>SQL for Data Management</li>
+        <li>Machine Learning</li>
+        <li>Deep Learning</li>
+        <li>Natural Language Processing</li>
+        <li>Generative AI</li>
+        <li>Practical projects &amp; hands‑on experience</li>
+      </ul>
+      <div style="text-align:center;">
+        <a href="#" class="cta-button cta-primary">Enroll Now</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section style="background-color: var(--dark-bg);">
+    <h2 class="section-title reveal">What Our Students Say</h2>
+    <div class="section-divider reveal delay-1"></div>
+    <p class="section-subtitle reveal delay-2">Real stories from students who transformed their careers with our
+      guidance.</p>
+    <div class="grid">
+      <div class="testimonial-card reveal delay-1">
+        <i class="fas fa-quote-right quote-icon"></i>
+        <p>"Next Career Steps made my dream of studying in Germany a reality. From SOP drafting to visa prep, every step
+          was handled with care and expertise."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">RK</div>
+          <div>
+            <div class="testimonial-name">Rahul Kulkarni</div>
+            <div class="testimonial-role">MS in Data Science, TU Munich</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal delay-2">
+        <i class="fas fa-quote-right quote-icon"></i>
+        <p>"The AI Upskilling course gave me practical skills that directly helped me land a machine learning role. The
+          trainers are exceptional!"</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">SP</div>
+          <div>
+            <div class="testimonial-name">Sneha Patil</div>
+            <div class="testimonial-role">ML Engineer, Infosys</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal delay-3">
+        <i class="fas fa-quote-right quote-icon"></i>
+        <p>"I received a DAAD scholarship thanks to their scholarship assistance programme. Highly recommend for anyone
+          planning to study abroad."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">AJ</div>
+          <div>
+            <div class="testimonial-name">Amit Joshi</div>
+            <div class="testimonial-role">MS in Mechanical Eng, RWTH Aachen</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Banner -->
+  <section style="background: var(--dark-bg);">
+    <div class="cta-banner reveal-scale">
+      <h2>Ready to Take the Next Step?</h2>
+      <p>Book a free consultation with our experts and get a personalised roadmap for your education or career goals.
+      </p>
+      <a href="#contact" class="cta-button" style="display:inline-flex;">Book Free Consultation <i
+          class="fas fa-arrow-right" style="margin-left:8px;"></i></a>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section id="faq" style="background-color: var(--section-alt);">
+    <h2 class="section-title reveal">Frequently Asked Questions</h2>
+    <div class="section-divider reveal delay-1"></div>
+    <div style="max-width: 800px; margin: 0 auto;" class="reveal delay-2">
+      <div class="faq-item">
+        <div class="faq-question">Germany मध्ये शिक्षण घेण्याचे मुख्य फायदे काय आहेत? <i
+            class="fas fa-chevron-down"></i></div>
+        <div class="faq-answer">जर्मनीमध्ये सार्वजनिक विद्यापीठांमध्ये मोफत किंवा अत्यंत कमी फीमध्ये उच्च दर्जाचे शिक्षण
+          मिळते. तसेच, शिक्षण पूर्ण झाल्यावर १८ महिन्यांचा पोस्ट-स्टडी वर्क व्हिसा मिळतो.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">तुमचा AI Upskilling कोर्स कोणासाठी आहे? <i class="fas fa-chevron-down"></i></div>
+        <div class="faq-answer">हा कोर्स इंजिनिअरिंग विद्यार्थी, वर्किंग प्रोफेशनल्स आणि ज्यांना डेटा सायन्स किंवा AI
+          क्षेत्रात करिअर करायचे आहे, त्यांच्यासाठी डिझाइन केला आहे.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">व्हिसा प्रक्रियेसाठी तुम्ही मदत करता का? <i class="fas fa-chevron-down"></i></div>
+        <div class="faq-answer">हो, आम्ही डॉक्युमेंटेशनपासून ते व्हिसा इंटरव्ह्यूच्या तयारीपर्यंत पूर्ण मदत करतो.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">जर्मन भाषा शिकणे अनिवार्य आहे का? <i class="fas fa-chevron-down"></i></div>
+        <div class="faq-answer">अनेक मास्टर्स प्रोग्राम्स इंग्लिशमध्ये आहेत, पण दैनंदिन जीवनासाठी आणि नोकरीसाठी किमान
+          A1/A2 लेव्हलची जर्मन भाषा येणे फायदेशीर ठरते.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact">
+    <h2 class="section-title reveal">Let's Start Your Journey</h2>
+    <div class="section-divider reveal delay-1"></div>
+    <div class="contact-grid">
+      <div class="contact-info reveal-left delay-2">
+        <h3>Get in Touch</h3>
+        <p>Contact us today to schedule a free consultation and receive personalised advice on pursuing your master's
+          degree or enhancing your AI skills.</p>
+        <div class="contact-item">
+          <i class="fas fa-envelope"></i>
+          <a href="mailto:vivekvanave@nextcareersteps.in">vivekvanave@nextcareersteps.in</a>
+        </div>
+        <div class="contact-item">
+          <i class="fas fa-phone"></i>
+          <a href="tel:+918605205226">+91&nbsp;86052&nbsp;05226</a>
+        </div>
+        <div class="contact-item">
+          <i class="fab fa-whatsapp"></i>
+          <a href="https://wa.me/919689908757" target="_blank">WhatsApp: +91&nbsp;96899&nbsp;08757</a>
+        </div>
+      </div>
+      <div class="reveal-right delay-3">
+        <!-- Contact form with simple mailto submission and honeypot for spam prevention -->
+        <form id="contactForm">
+          <h3 style="color: var(--accent-color); margin-bottom: 1.5rem;">Free Consultation Form</h3>
+          <!-- Honeypot field: leave this empty. Bots will fill it and we can discard those submissions -->
+          <input type="text" id="website" name="website" style="display:none;" autocomplete="off">
+          <div class="form-group">
+            <label for="name">Your Name</label>
+            <input type="text" id="name" name="name" placeholder="Enter your name" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" placeholder="Optional">
+          </div>
+          <div class="form-group">
+            <label for="message">How Can We Help?</label>
+            <textarea id="message" name="message" rows="4" placeholder="Tell us about your study or upskilling plans"
+              required></textarea>
+          </div>
+          <button type="submit" class="submit-button" style="width:100%; border-radius:40px; padding:1rem;">Send Message
+            <i class="fas fa-paper-plane" style="margin-left:8px;"></i></button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer style="background: var(--panel-bg); border-top: 1px solid var(--border-color);">
+    <div class="footer-grid">
+      <div>
+        <h4 style="color: var(--primary-color); font-size:1.2rem;">Next Career Steps</h4>
+        <p style="color: var(--muted-text); font-size:0.9rem; line-height:1.6;">Your trusted partner for international
+          education and AI career growth.</p>
+      </div>
+      <div>
+        <h4>Quick Links</h4>
+        <a href="#study-germany">Study in Germany</a>
+        <a href="#ai-program">AI Upskilling</a>
+        <a href="#contact">Contact Us</a>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <a href="#privacy-policy">Privacy Policy</a>
+        <a href="#terms">Terms of Service</a>
+        <a href="#data-deletion">Data Deletion</a>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <a href="mailto:vivekvanave@nextcareersteps.in"><i class="fas fa-envelope" style="margin-right:6px;"></i> Email
+          Us</a>
+        <a href="tel:+918605205226"><i class="fas fa-phone" style="margin-right:6px;"></i> +91 86052 05226</a>
+        <a href="https://wa.me/919689908757" target="_blank"><i class="fab fa-whatsapp" style="margin-right:6px;"></i>
+          WhatsApp</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© <span id="year"></span> Next Career Steps. All rights reserved. Built with ❤️ in India.</p>
+    </div>
+  </footer>
+
+  <!-- Floating Widgets -->
+  <div class="floating-widget">
+    <a href="#contact" class="callback-btn"><i class="fas fa-phone-alt"></i> Callback</a>
+    <a href="https://wa.me/919689908757" target="_blank" class="whatsapp-btn">
+      <i class="fab fa-whatsapp"></i>
+    </a>
+  </div>
+  <script>
+    // Mobile sidebar functionality
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const closeSidebar = document.getElementById('closeSidebar');
+    const mobileSidebar = document.getElementById('mobileSidebar');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileSidebar.classList.add('active');
+      sidebarOverlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+
+    closeSidebar.addEventListener('click', () => {
+      mobileSidebar.classList.remove('active');
+      sidebarOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+    });
+
+    sidebarOverlay.addEventListener('click', () => {
+      mobileSidebar.classList.remove('active');
+      sidebarOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+    });
+
+    // Close sidebar when clicking on a link
+    document.querySelectorAll('.mobile-sidebar-nav a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileSidebar.classList.remove('active');
+        sidebarOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+    });
+
+    // Dynamic year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Smooth scrolling
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        const href = this.getAttribute('href');
+        if (href.length > 1) {
+          e.preventDefault();
+          const target = document.querySelector(href);
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }
+      });
+    });
+
+    // Contact form submission handler
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+      contactForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+        const honeypot = document.getElementById('website').value;
+        if (honeypot) {
+          return;
+        }
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const phone = document.getElementById('phone').value;
+        const message = document.getElementById('message').value;
+        const subject = encodeURIComponent('New enquiry from Next Career Steps website');
+        const body = encodeURIComponent(
+          `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\nMessage: ${message}`
+        );
+        window.location.href = `mailto:vivekvanave@nextcareersteps.in?subject=${subject}&body=${body}`;
+      });
+    }
+
+    // ── Scroll Reveal Animation ──
+    const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+    revealElements.forEach(el => revealObserver.observe(el));
+
+    // ── Header shadow on scroll ──
+    const header = document.querySelector('header');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        header.style.boxShadow = '0 4px 20px rgba(0,0,0,0.1)';
+      } else {
+        header.style.boxShadow = '0 2px 8px rgba(0,0,0,0.08)';
+      }
+    });
+
+    // ── FAQ Accordion Logic ──
+    document.querySelectorAll('.faq-question').forEach(q => {
+      q.addEventListener('click', () => {
+        const item = q.parentElement;
+        item.classList.toggle('active');
+      });
+    });
+
+    // ── Scroll Progress Bar ──
+    window.addEventListener('scroll', () => {
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      document.getElementById("scrollProgress").style.width = scrolled + "%";
+    });
+
+  </script>
+
+  <section id="privacy-policy" style="padding: 3rem 2rem; max-width:1200px; margin:0 auto;">
+    <h2 class="section-title" style="font-size:1.8rem;">Privacy Policy</h2>
+    <div class="section-divider"></div>
+    <div style="max-width:800px; margin:0 auto; color: var(--muted-text); line-height:1.8;">
+      <p>Next Career Step Consultancy respects user privacy. We collect basic information such as name and phone number
+        only to communicate with users and provide career guidance.</p>
+      <p>WhatsApp messages are used only for service-related communication. We do not sell or share personal data with
+        third parties.</p>
+      <p>Contact: admin@nextcareersteps.in</p>
+    </div>
+  </section>
+
+  <section id="terms" style="padding: 3rem 2rem; max-width:1200px; margin:0 auto; background: var(--section-alt);">
+    <h2 class="section-title" style="font-size:1.8rem;">Terms of Service</h2>
+    <div class="section-divider"></div>
+    <div style="max-width:800px; margin:0 auto; color: var(--muted-text); line-height:1.8;">
+      <p>By contacting Next Career Step Consultancy, you agree to receive communication via WhatsApp, phone, or email.
+      </p>
+      <p>You may opt out anytime by messaging "STOP".</p>
+    </div>
+  </section>
+
+  <section id="data-deletion" style="padding: 3rem 2rem; max-width:1200px; margin:0 auto;">
+    <h2 class="section-title" style="font-size:1.8rem;">User Data Deletion</h2>
+    <div class="section-divider"></div>
+    <div style="max-width:800px; margin:0 auto; color: var(--muted-text); line-height:1.8;">
+      <p>Users can request deletion of their personal data by emailing admin@nextcareersteps.in.</p>
+      <p>Data will be deleted within 7 business days.</p>
+    </div>
+  </section>
+
+</body>
+
+</html>
